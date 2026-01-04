@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  background-color: #ffffff;
+}
+
+@layer utilities {
+  .bg-color-purple {
+    background-color: #A68BFA;
+  }
+
+  .bg-gradient-ellipse {
+    background: radial-gradient(ellipse 100% 150% at 80% 10%, rgba(0, 194, 255, 0.4) 0%, rgba(255, 148, 228, 0.3) 50%, transparent 80%);
+  }
+}
+
+/* Mobile-first responsive utilities */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent text selection on mobile for better UX */
+@media (max-width: 640px) {
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.upgrade-card-gradient {
+  background: linear-gradient(to top left,#CBBAFF, #C89FF3,#7248F1);
+}
+
+.selected-header-button {
+  position: relative;
+  padding: 10px;
+  border-radius: 9999px;
+  background: white;
+}
+
+.selected-header-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  padding: 2px;
+  background: linear-gradient(45deg, #A68BFA, #BCB2FF);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.mock-interview-button {
+  background: #B9FD33;
+  border: none;
+  border-radius: 9999px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mock-interview-button:hover {
+  background: #90c428;
+  border: none;
+  border-radius: 9999px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.percentage-color-green {
+  color: #B9FD33;
+}
+
+.percentage-color-yellow {
+  color: #FFD035;
+}
+
+.rounded-sides {
+  border-radius: 9999px;
+}
+
+.bg-color-green {
+  background-color: #B9FD33;
+}
