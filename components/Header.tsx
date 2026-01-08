@@ -1,5 +1,9 @@
 'use client';
+import { useState } from 'react';
 import Link from 'next/link';
+import MobileNav from './MobileNav';
+import { MenuIcon } from './Icons';
+
 interface HeaderProps {
   activeFilter: 'Matched' | 'Liked' | 'Applied';
   onFilterChange: (filter: 'Matched' | 'Liked' | 'Applied') => void;
@@ -9,12 +13,25 @@ interface HeaderProps {
 }
 
 export default function Header({ activeFilter, onFilterChange, likedCount, appliedCount, onNavigateHome }: HeaderProps) {
-  return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="flex items-center justify-between px-4 sm:px-6 py-4">
-    
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
-        {/* Global Filters */}
+  return (
+    <>
+      <MobileNav isOpen={isMobileNavOpen} onClose={() => setIsMobileNavOpen(false)} />
+
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-4">
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileNavOpen(true)}
+            className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            aria-label="Open navigation menu"
+          >
+            <MenuIcon className="w-5 h-5 text-gray-700" />
+          </button>
+
+          {/* Global Filters */}
         <div className="flex items-center gap-2 sm:gap-3">
           <Link
             href="/"

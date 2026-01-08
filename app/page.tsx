@@ -137,7 +137,7 @@ export default function Home() {
         />
 
         {/* Main Content */}
-        <main className="flex-1 flex flex-col lg:flex-row gap-6 p-4 lg:p-6 overflow-y-auto bg-gray-50">
+        <main className="flex-1 flex flex-col lg:flex-row gap-4 lg:gap-6 p-3 sm:p-4 lg:p-6 overflow-y-auto bg-gray-50">
           {/* Central Content Area */}
           <section className="flex-1 min-w-0">
             {currentSelectedJob ? (
@@ -150,30 +150,35 @@ export default function Home() {
             ) : (
               <>
                 {/* Top Controls */}
-                <div className="flex items-center justify-between mb-6 gap-3">
-                  <button 
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between mb-6 gap-3">
+                  <button
                     onClick={handleChangeJobReference}
-                    className="flex items-center justify-center gap-2 px-4 py-2 text-white rounded-full font-medium hover:bg-purple-700 transition-colors text-sm flex-1" 
-                    style={{ backgroundColor: '#A68BFA', maxWidth: 'calc(100% - 220px)' }}
+                    className="flex items-center justify-center gap-2 px-4 py-2 text-white rounded-full font-medium hover:bg-purple-700 transition-colors text-sm flex-1 sm:flex-initial"
+                    style={{ backgroundColor: '#A68BFA' }}
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    Change Job Reference
+                    <span className="truncate">Change Job Reference</span>
                   </button>
-                  <button 
+                  <button
                     onClick={handleSortToggle}
-                    className="flex items-center justify-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-full font-medium hover:bg-gray-50 transition-colors text-sm whitespace-nowrap flex-shrink-0"
-                    style={{ width: '200px' }}
+                    className="flex items-center justify-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-full font-medium hover:bg-gray-50 transition-colors text-sm whitespace-nowrap"
                   >
                     <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
-                    <span>
+                    <span className="hidden xs:inline">
                       {sortMethod === 'match' && 'Top matched'}
                       {sortMethod === 'applicants' && 'Fewest applicants'}
                       {sortMethod === 'salary' && 'Highest salary'}
                       {sortMethod === 'date' && 'Newest first'}
+                    </span>
+                    <span className="xs:hidden">
+                      {sortMethod === 'match' && 'Match'}
+                      {sortMethod === 'applicants' && 'Applicants'}
+                      {sortMethod === 'salary' && 'Salary'}
+                      {sortMethod === 'date' && 'Date'}
                     </span>
                   </button>
                 </div>
