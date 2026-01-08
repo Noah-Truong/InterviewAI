@@ -90,5 +90,6 @@ export default function Header({ activeFilter, onFilterChange, likedCount, appli
         </div>
       </div>
     </header>
+    </>
   );
 }

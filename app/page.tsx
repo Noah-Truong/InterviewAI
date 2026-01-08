@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Job } from '../types';
 import { mockJobs } from '../data/mockJobs';
 import Header from '../components/Header';
@@ -17,6 +17,24 @@ export default function Home() {
   const [activeFilter, setActiveFilter] = useState<'Matched' | 'Liked' | 'Applied'>('Matched');
   const [jobs, setJobs] = useState<Job[]>(mockJobs);
   const [sortMethod, setSortMethod] = useState<SortMethod>('match');
+  const [jobReference, setJobReference] = useState<string | null>(null);
+  const [notification, setNotification] = useState<string | null>(null);
+
+  // Load job reference from localStorage on mount
+  useEffect(() => {
+    const savedReference = localStorage.getItem('jobReference');
+    if (savedReference) {
+      setJobReference(savedReference);
+    }
+  }, []);
+
+  // Auto-hide notification after 3 seconds
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => setNotification(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
 
   const handleApply = (job: Job) => {
     // Update the job's applied status
@@ -47,8 +65,19 @@ export default function Home() {
     input.onchange = (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (file) {
-        alert(`Job reference updated! Processing ${file.name}...`);
-        // Here you would typically upload the file and update match percentages
+        // Save file reference to localStorage
+        localStorage.setItem('jobReference', file.name);
+        setJobReference(file.name);
+
+        // Simulate recalculating match percentages based on new reference
+        setJobs(prevJobs =>
+          prevJobs.map(job => ({
+            ...job,
+            matchPercentage: Math.min(100, Math.max(40, job.matchPercentage + Math.floor(Math.random() * 21) - 10))
+          }))
+        );
+
+        setNotification(`Job reference updated to "${file.name}"! Match percentages recalculated.`);
       }
     };
     input.click();
@@ -120,6 +149,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col lg:flex-row">
+      {/* Notification Toast */}
+      {notification && (
+        <div className="fixed top-4 right-4 z-50 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg animate-fade-in">
+          {notification}
+        </div>
+      )}
+
       {/* Left Sidebar - Hidden on mobile, visible on large screens */}
       <div className="hidden lg:block">
         <Sidebar />
@@ -155,11 +191,12 @@ export default function Home() {
                     onClick={handleChangeJobReference}
                     className="flex items-center justify-center gap-2 px-4 py-2 text-white rounded-full font-medium hover:bg-purple-700 transition-colors text-sm flex-1 sm:flex-initial"
                     style={{ backgroundColor: '#A68BFA' }}
+                    title={jobReference ? `Current: ${jobReference}` : 'No reference uploaded'}
                   >
                     <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <span className="truncate">Change Job Reference</span>
+                    <span className="truncate">{jobReference ? `Reference: ${jobReference.slice(0, 15)}${jobReference.length > 15 ? '...' : ''}` : 'Change Job Reference'}</span>
                   </button>
                   <button
                     onClick={handleSortToggle}
